@@ -2,6 +2,8 @@
 
 A modern, high-performance rich text editor built with **React 19**, **Slate.js**, and **Tailwind CSS v4**. This playground demonstrates advanced editor capabilities including complex block types, media embeds, and a seamless UI powered by **shadcn/ui**.
 
+![Screenshot](./assets/screenshot.jpg)
+
 ## ✨ Features
 
 -   **Rich Text Formatting**: Bold, Italic, Underline, Code, and more.
@@ -46,25 +48,6 @@ A modern, high-performance rich text editor built with **React 19**, **Slate.js*
     ```bash
     pnpm dev
     ```
-
-## 📝 Demo Content Example
-
-When you first open the editor, it supports the following structure:
-
-> **Header 1**: Welcome to the Playground
-> 
-> This is a paragraph demonstrating **bold** and *italic* text. 
-> 
-> - List Item 1
-> - List Item 2
->   - List SubItem 1
->   - List SubItem 2
-> - List Item 3
-> 
-> > "This is a blockquote that looks great in modern UIs."
-> 
-> *Embedded Media (YouTube)*
-> [ 🎥 Aspect Ratio 16:9 Player ]
 
 ## 🔧 Configuration
 
