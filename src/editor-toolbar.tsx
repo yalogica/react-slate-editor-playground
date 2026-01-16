@@ -99,7 +99,7 @@ export const EditorToolbar = ({ editor, isExpanded, onExpand }: EditorToolbarPro
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem onSelect={() => handleGeneralAction(BlockType.Paragraph)}>
-            <Icons.Paragraph size={16} /><span>Normal</span>
+            <Icons.Paragraph size={16} /><span>Text</span>
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={() => handleGeneralAction(BlockType.HeadingOne)}>
             <Icons.H1 size={16} /><span>Heading 1</span>
