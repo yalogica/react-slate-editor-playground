@@ -127,17 +127,45 @@ export const EditorToolbar = ({ editor, isExpanded, onExpand }: EditorToolbarPro
 
       <Separator  orientation="vertical" />
 
-      <Button variant="ghost" size="sm" className={cn(isMarkActive(editor, MarkType.Bold) && "bg-primary text-primary-foreground")}>
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className={cn(isMarkActive(editor, MarkType.Bold) && "bg-primary text-primary-foreground")}
+        onClick={() => toggleMark(editor, MarkType.Bold)}
+      >
         <Icons.Bold size={16} />
       </Button>
-      <Button variant="ghost" size="sm" className={cn(isMarkActive(editor, MarkType.Italic) && "bg-primary text-primary-foreground")}>
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className={cn(isMarkActive(editor, MarkType.Italic) && "bg-primary text-primary-foreground")}
+        onClick={() => toggleMark(editor, MarkType.Italic)}
+      >
         <Icons.Italic size={16} />
       </Button>
-      <Button variant="ghost" size="sm" className={cn(isMarkActive(editor, MarkType.Italic) && "bg-primary text-primary-foreground")}>
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className={cn(isMarkActive(editor, MarkType.Underline) && "bg-primary text-primary-foreground")}
+        onClick={() => toggleMark(editor, MarkType.Underline)}
+      >
         <Icons.Underline size={16} />
       </Button>
-      <Button variant="ghost" size="sm" className={cn(isMarkActive(editor, MarkType.Strikethrough) && "bg-primary text-primary-foreground")}>
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className={cn(isMarkActive(editor, MarkType.Strikethrough) && "bg-primary text-primary-foreground")}
+        onClick={() => toggleMark(editor, MarkType.Strikethrough)}
+      >
         <Icons.Strikethrough size={16} />
+      </Button>
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className={cn(isMarkActive(editor, MarkType.Code) && "bg-primary text-primary-foreground")} 
+        onClick={() => toggleMark(editor, MarkType.Code)}
+      >
+        <Icons.Code size={16} />
       </Button>
 
       <Separator  orientation="vertical" />
