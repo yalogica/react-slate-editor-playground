@@ -48,8 +48,7 @@ export const Editor = ({ className, content = [] }: EditorProps) => {
   const editor = useMemo(() => withHistory(withSchema(withEmbeds(withLinks(withReact(createEditor()))))), []);
   const [editorContent, setEditorContent] = useState<Descendant[]>(content);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [, setTick] = useState(0);
-
+ 
   const toggleExpand = useCallback(() => {
     editor.deselect();
     setIsExpanded(prev => !prev);
@@ -57,7 +56,6 @@ export const Editor = ({ className, content = [] }: EditorProps) => {
 
   const handleOnChange = useCallback((newValue: Descendant[]) => {
     setEditorContent(newValue);
-    setTick(t => t + 1);
   }, []);
 
   return (

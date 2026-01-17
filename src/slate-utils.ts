@@ -1,7 +1,7 @@
 
 import { Editor as SlateEditor, Element as SlateElement, Node as SlateNode, Transforms, Path, Range } from "slate"
 import { ReactEditor } from "slate-react"
-import { CustomEditor, CustomElement, LinkElement, ImageElement, EmbedElement, BlockType, AlignType, MarkType, FloatType } from "@/slate-types"
+import { CustomEditor, CustomElement, CustomNode, LinkElement, ImageElement, EmbedElement, BlockType, AlignType, MarkType, FloatType } from "@/slate-types"
 
 const ELEMENTS_WITH_ALIGN = [
   BlockType.Paragraph,
@@ -282,7 +282,7 @@ export const insertLink = (editor: CustomEditor, linkElement: LinkElement) => {
   }
 
   const [parent, parentPath] = SlateEditor.parent(editor, selection.focus.path);
-  if ((parent as any).type === BlockType.Link) {
+  if ((parent as CustomElement).type === BlockType.Link) {
     removeLink(editor, parent as LinkElement);
   }
 
@@ -290,8 +290,7 @@ export const insertLink = (editor: CustomEditor, linkElement: LinkElement) => {
   const linkText = linkElement.children.length > 0 ? SlateNode.string(linkElement) : linkElement.url;
   const linkToInsert = createLinkWithText(linkText || selectedText);
 
-  // внутри void-элемента (например, изображение)
-  if (editor.isVoid(parent as any)) {
+  if (editor.isVoid(parent as CustomElement)) {
     Transforms.insertNodes(editor, {
       type: BlockType.Paragraph,
       children: [linkToInsert],
@@ -360,14 +359,12 @@ export const createImageElement = (url: string, alt?: string, width?: string, fl
 export const insertImage = (editor: CustomEditor, imageElement: ImageElement) => {
   const { selection } = editor;
 
-  // Создаём изображение с пустыми children (обязательно для void-элементов)
   const imageToInsert: ImageElement = {
     ...imageElement,
-    children: [{ text: "" }] // ← void-элементы должны иметь children: [{ text: '' }]
+    children: [{ text: "" }]
   }
 
   if (!selection) {
-    // Нет выделения → вставляем в новый параграф
     Transforms.insertNodes(editor, {
       type: BlockType.Paragraph,
       children: [imageToInsert],
@@ -377,7 +374,6 @@ export const insertImage = (editor: CustomEditor, imageElement: ImageElement) =>
 
   const [parent, parentPath] = SlateEditor.parent(editor, selection.focus.path);
 
-  // Если курсор внутри другого void-элемента (например, изображения) — вставляем после
   if (editor.isVoid(parent as any)) {
     Transforms.insertNodes(editor, imageToInsert, {
       at: Path.next(parentPath),
@@ -386,8 +382,6 @@ export const insertImage = (editor: CustomEditor, imageElement: ImageElement) =>
     return;
   }
 
-  // Для inline-элементов (параграф, заголовок и т.д.)
-  // Изображение — блочный void-элемент, поэтому вставляем как отдельный узел
   Transforms.insertNodes(editor, imageToInsert, { select: true });
 }
 
@@ -441,14 +435,12 @@ export const createEmbedElement = (url: string, width?: string, height?: string,
 export const insertEmbed = (editor: CustomEditor, embedElement: EmbedElement) => {
   const { selection } = editor;
 
-  // Создаём изображение с пустыми children (обязательно для void-элементов)
   const embedToInsert: EmbedElement = {
     ...embedElement,
-    children: [{ text: "" }] // ← void-элементы должны иметь children: [{ text: '' }]
+    children: [{ text: "" }]
   }
 
   if (!selection) {
-    // Нет выделения → вставляем в новый параграф
     Transforms.insertNodes(editor, {
       type: BlockType.Paragraph,
       children: [embedToInsert],
@@ -458,7 +450,6 @@ export const insertEmbed = (editor: CustomEditor, embedElement: EmbedElement) =>
 
   const [parent, parentPath] = SlateEditor.parent(editor, selection.focus.path);
 
-  // Если курсор внутри другого void-элемента (например, изображения) — вставляем после
   if (editor.isVoid(parent as any)) {
     Transforms.insertNodes(editor, embedToInsert, {
       at: Path.next(parentPath),
@@ -467,8 +458,6 @@ export const insertEmbed = (editor: CustomEditor, embedElement: EmbedElement) =>
     return;
   }
 
-  // Для inline-элементов (параграф, заголовок и т.д.)
-  // Изображение — блочный void-элемент, поэтому вставляем как отдельный узел
   Transforms.insertNodes(editor, embedToInsert, { select: true });
 }
 

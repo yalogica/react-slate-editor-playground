@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 
 interface PopoverProps {
@@ -10,12 +10,12 @@ interface PopoverProps {
 
 export const Popover = ({ className, style, children, content }: PopoverProps) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [timeoutId, setTimeoutId] = useState<number | null>(null);
+  const timeoutRef = useRef<number | null>(null);
 
   const show = () => {
-    if (timeoutId !== null) {
-      window.clearTimeout(timeoutId);
-      setTimeoutId(null);
+    if (timeoutRef.current !== null) {
+      window.clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
     }
     setIsVisible(true);
   };
@@ -23,18 +23,18 @@ export const Popover = ({ className, style, children, content }: PopoverProps) =
   const hide = () => {
     const id = window.setTimeout(() => {
       setIsVisible(false);
-      setTimeoutId(null);
+      timeoutRef.current = null;
     }, 100);
-    setTimeoutId(id);
+    timeoutRef.current = id;
   };
 
   useEffect(() => {
     return () => {
-      if (timeoutId !== null) {
-        window.clearTimeout(timeoutId);
+      if (timeoutRef.current !== null) {
+        window.clearTimeout(timeoutRef.current);
       }
     };
-  }, [timeoutId]);
+  }, []);
 
   return (
     <span

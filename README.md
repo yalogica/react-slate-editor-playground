@@ -18,7 +18,7 @@ A modern, high-performance rich text editor built with **React 19**, **Slate.js*
     -   Interactive toolbars and popovers.
     -   Global Dialog/Modal system powered by **Zustand**.
     -   Responsive design using **Tailwind CSS v4**.
--   **IFrame Sandbox**: The editor can be rendered inside a sandboxed IFrame for isolated styling and improved performance.
+-   **IFrame Sandbox**: The editor is rendered inside a sandboxed IFrame for isolated styling and improved performance.
 
 ## 🛠️ Tech Stack
 

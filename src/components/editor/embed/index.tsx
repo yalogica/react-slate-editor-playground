@@ -101,7 +101,7 @@ export const Embed = ({ attributes, children, element }: RenderElementProps) => 
 
       <button
         type="button"
-        title="Edit Image"
+        title="Edit Embed"
         onClick={() => doAction("edit")}
         onMouseDown={(e) => e.preventDefault()}
       >
@@ -109,7 +109,7 @@ export const Embed = ({ attributes, children, element }: RenderElementProps) => 
       </button>
       <button
         type="button"
-        title="Remove Image"
+        title="Remove Embed"
         onClick={() => doAction("delete")}
         onMouseDown={(e) => e.preventDefault()}
       >

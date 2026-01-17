@@ -51,12 +51,12 @@ export const EditorContent = ({ editor, isExpanded, value, onChange }: EditorCon
         return;
       }
     }
-  }, [editor]);
+  }, []);
 
   const handlePointerDown = useCallback(() => {
     const pointerEvent = new PointerEvent("pointerdown", { bubbles: true, cancelable: true });
     document.body.dispatchEvent(pointerEvent);
-  }, [editor]);
+  }, []);
 
   return (
     <div className="flex-1">

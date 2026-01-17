@@ -80,11 +80,11 @@ export const EditorToolbar = ({ editor, isExpanded, onExpand }: EditorToolbarPro
     }
   }
 
-  const handelEditImage = () => {
+  const handleEditImage = () => {
     showDialog(<DialogEditImage onSubmit={(newImageElement) => { insertImage(editor, newImageElement); }} />);
   }
 
-  const handelEditEmbed = () => {
+  const handleEditEmbed = () => {
     showDialog(<DialogEditEmbed onSubmit={(newEmbedElement) => { insertEmbed(editor, newEmbedElement); }} />);
   }
 
@@ -221,10 +221,10 @@ export const EditorToolbar = ({ editor, isExpanded, onExpand }: EditorToolbarPro
       <Button variant="ghost" size="sm" onClick={handleEditLink}>
         { activeBlockLowest?.type === BlockType.Link ? <Icons.Unlink size={16} /> : <Icons.Link size={16} /> }
       </Button>
-      <Button variant="ghost" size="sm" onClick={handelEditImage}>
+      <Button variant="ghost" size="sm" onClick={handleEditImage}>
         <Icons.ImagePlus size={16} />
       </Button>
-      <Button variant="ghost" size="sm" onClick={handelEditEmbed}>
+      <Button variant="ghost" size="sm" onClick={handleEditEmbed}>
         <Icons.EmbedPlus size={16} />
       </Button>
 

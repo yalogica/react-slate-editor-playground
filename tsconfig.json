@@ -17,6 +17,9 @@
     "isolatedModules": true,
     "removeComments": true,
     "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
     /* Linting */
     "strict": true,
     "baseUrl": ".",
