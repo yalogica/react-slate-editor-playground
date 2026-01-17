@@ -11,6 +11,7 @@ import { EDITOR_STYLES, HOTKEYS } from "@/editor-types";
 import type { CustomEditor } from "@/slate-types";
 import { BlockType } from "@/slate-types";
 import { toggleMark, supportsAlign } from "@/slate-utils";
+import { ElementPopoverProvider } from "@/components/editor/element-popover-provider";
 import { Link } from "@/components/editor/link";
 import { Image } from "@/components/editor/image";
 import { Embed } from "@/components/editor/embed";
@@ -65,13 +66,15 @@ export const EditorContent = ({ editor }: EditorContentProps) => {
   return (
     <div className="flex-1">
       <IFrame>
-        <Editable
-          placeholder="Enter some rich text…"
-          renderElement={renderElement}
-          renderLeaf={renderLeaf}
-          onKeyDown={handleKeyDown}
-          onPointerDown={handlePointerDown}
-        />
+        <ElementPopoverProvider>
+          <Editable
+            placeholder="Enter some rich text…"
+            renderElement={renderElement}
+            renderLeaf={renderLeaf}
+            onKeyDown={handleKeyDown}
+            onPointerDown={handlePointerDown}
+          />
+        </ElementPopoverProvider>
       </IFrame>
     </div>
   );

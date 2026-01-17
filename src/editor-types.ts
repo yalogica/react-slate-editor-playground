@@ -71,18 +71,15 @@ export const EDITOR_STYLES = `
     box-shadow: 0 0 0 2px #2271b1;
     border-radius: 5px;
   }
-  .link-container,
   .image-container,
   .embed-container {
     display: inline-block;
     position: relative;
   }
   .popover {
-    transition: all .2s;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, calc(-100% - 10px));
+    transition: opacity .2s ease;
+    pointer-event: none;
+    opacity: 0;
     display: flex;
     gap: 5px;
     align-items: center;
@@ -90,15 +87,12 @@ export const EDITOR_STYLES = `
     background: #fff;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 999;
-    opacity: 0;
-    pointer-events: none;
-    user-select: none;
   }
   .popover.visible {
-    transform: translate(-50%, calc(-100% - 2px));
+    pointer-event: auto;
     opacity: 1;
-    pointer-events: auto;
   }
   button {
     padding: 3px;

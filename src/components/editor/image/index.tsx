@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { Transforms, Path } from "slate";
 import type { RenderElementProps } from "slate-react";
 import { ReactEditor, useSlateStatic, useSelected } from "slate-react";
@@ -7,32 +7,21 @@ import { Icons } from "@/lib/icons";
 import { useDialogStore } from "@/components/dialog/use-dialog-store";
 import type { ImageElement } from "@/slate-types";
 import { BlockType, FloatType, AlignType } from "@/slate-types";
-import { updateImage, removeImage, selectBlock } from "@/slate-utils";
-import { Popover } from "../popover";
+import { updateImage, removeImage } from "@/slate-utils";
 import { DialogEditImage } from "./dialog-edit-image";
+import { useElementPopover } from "../element-popover-provider";
 
 export const Image = ({ attributes, children, element }: RenderElementProps) => {
   const { showDialog } = useDialogStore();
+  const { showPopover, hidePopover } = useElementPopover();
+
   const editor = useSlateStatic();
   const imageElement = element as ImageElement;
 
+  const { ref: slateRef, ...restAttributes } = attributes;
+  const imageRef = useRef<HTMLDivElement>(null);
+
   const selected = useSelected();
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-
-      // insert new paragraph after an embed element
-      const path = ReactEditor.findPath(editor, imageElement);
-      Transforms.insertNodes(editor, {
-        type: BlockType.Paragraph,
-        children: [{ text: "" }],
-      }, {
-        at: Path.next(path),
-        select: true,
-      });
-    }
-  };
 
   const doAction = useCallback((action: "w-25" | "w-50" | "w-100" | "float-left" | "float-right" | "edit" | "delete") => {
     switch (action) {
@@ -57,7 +46,6 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
         type="button"
         title="Set image width to 25%"
         onClick={() => doAction("w-25")}
-        onMouseDown={(e) => e.preventDefault()}
       >
         25%
       </button>
@@ -65,7 +53,6 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
         type="button"
         title="Set image width to 50%"
         onClick={() => doAction("w-50")}
-        onMouseDown={(e) => e.preventDefault()}
       >
         50%
       </button>
@@ -73,7 +60,6 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
         type="button"
         title="Set image width to 100%"
         onClick={() => doAction("w-100")}
-        onMouseDown={(e) => e.preventDefault()}
       >
         100%
       </button>
@@ -85,7 +71,6 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
         title="Wrap text around left"
         className={cn(imageElement.float === FloatType.Left && "active")}
         onClick={() => doAction("float-left")}
-        onMouseDown={(e) => e.preventDefault()}
       >
         <Icons.FloatLeft size={16} />
       </button>
@@ -94,7 +79,6 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
         title="Wrap text around right"
         className={cn(imageElement.float === FloatType.Right && "active")}
         onClick={() => doAction("float-right")}
-        onMouseDown={(e) => e.preventDefault()}
       >
         <Icons.FloatRight size={16} />
       </button>
@@ -105,7 +89,6 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
         type="button"
         title="Edit Image"
         onClick={() => doAction("edit")}
-        onMouseDown={(e) => e.preventDefault()}
       >
         <Icons.Settings size={16} />
       </button>
@@ -113,7 +96,6 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
         type="button"
         title="Remove Image"
         onClick={() => doAction("delete")}
-        onMouseDown={(e) => e.preventDefault()}
       >
         <Icons.Trash size={16} />
       </button>
@@ -139,22 +121,54 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      // insert new paragraph after an embed element
+      const path = ReactEditor.findPath(editor, imageElement);
+      Transforms.insertNodes(editor, {
+        type: BlockType.Paragraph,
+        children: [{ text: "" }],
+      }, {
+        at: Path.next(path),
+        select: true,
+      });
+    }
+  };
+
+  const handleMouseEnter = useCallback(() => {
+    if (imageRef.current) {
+      const rect = imageRef.current.getBoundingClientRect();
+      showPopover(imageElement, rect, popoverContent, "image");
+    }
+  }, [imageElement, showPopover, popoverContent]);
+
+  const handleMouseLeave = useCallback(() => {
+    hidePopover();
+  }, [hidePopover]);
+
   return (
-    <Popover
-      className={cn("image-container")}
+    <div
+      ref={(node) => {
+        slateRef?.(node);
+        imageRef.current = node;
+      }}
+      {...restAttributes}
       style={containerStyle}
-      content={popoverContent}
+      className="image-container"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onKeyDown={handleKeyDown} 
     >
-      <span {...attributes} onKeyDown={handleKeyDown} onMouseDown={() => selectBlock(editor, imageElement)}>
-        <img
-          className={cn(selected && "selected")}
-          src={imageElement.url}
-          alt={imageElement.alt || ""}
-          contentEditable={false}
-          draggable={false}
-        />
-        {children}
-      </span>
-    </Popover>
+      <img
+        className={cn(selected && "selected")}
+        src={imageElement.url}
+        alt={imageElement.alt || ""}
+        contentEditable={false}
+        draggable={false}
+      />
+      {children} 
+    </div>
   );
 };

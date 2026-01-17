@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { Transforms, Path } from "slate";
 import type { RenderElementProps } from "slate-react";
 import { ReactEditor, useSlateStatic, useSelected } from "slate-react";
@@ -7,32 +7,21 @@ import { Icons } from "@/lib/icons";
 import { useDialogStore } from "@/components/dialog/use-dialog-store";
 import type { EmbedElement } from "@/slate-types";
 import { BlockType, FloatType, AlignType } from "@/slate-types";
-import { updateEmbed, removeEmbed, selectBlock } from "@/slate-utils";
-import { Popover } from "../popover";
+import { updateEmbed, removeEmbed } from "@/slate-utils";
 import { DialogEditEmbed } from "./dialog-edit-embed";
+import { useElementPopover } from "../element-popover-provider";
 
 export const Embed = ({ attributes, children, element }: RenderElementProps) => {
   const { showDialog } = useDialogStore();
+  const { showPopover, hidePopover } = useElementPopover();
+
   const editor = useSlateStatic();
   const embedElement = element as EmbedElement;
 
+  const { ref: slateRef, ...restAttributes } = attributes;
+  const embedRef = useRef<HTMLDivElement>(null);
+
   const selected = useSelected();
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-
-      // insert new paragraph after an embed element
-      const path = ReactEditor.findPath(editor, embedElement);
-      Transforms.insertNodes(editor, {
-        type: BlockType.Paragraph,
-        children: [{ text: "" }],
-      }, {
-        at: Path.next(path),
-        select: true,
-      });
-    }
-  };
 
   const doAction = useCallback((action: "w-25" | "w-50" | "w-100" | "float-left" | "float-right" | "edit" | "delete") => {
     switch (action) {
@@ -141,24 +130,56 @@ export const Embed = ({ attributes, children, element }: RenderElementProps) => 
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      // insert new paragraph after an embed element
+      const path = ReactEditor.findPath(editor, embedElement);
+      Transforms.insertNodes(editor, {
+        type: BlockType.Paragraph,
+        children: [{ text: "" }],
+      }, {
+        at: Path.next(path),
+        select: true,
+      });
+    }
+  };
+
+  const handleMouseEnter = useCallback(() => {
+    if (embedRef.current) {
+      const rect = embedRef.current.getBoundingClientRect();
+      showPopover(embedElement, rect, popoverContent, "embed");
+    }
+  }, [embedElement, showPopover, popoverContent]);
+
+  const handleMouseLeave = useCallback(() => {
+    hidePopover();
+  }, [hidePopover]);
+
   return (
-    <Popover
-      className={cn("embed-container")}
+    <div
+      ref={(node) => {
+        slateRef?.(node);
+        embedRef.current = node;
+      }}
+      {...restAttributes}
       style={containerStyle}
-      content={popoverContent}
+      className="embed-container"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onKeyDown={handleKeyDown} 
     >
-      <span {...attributes} onKeyDown={handleKeyDown} onMouseDown={() => selectBlock(editor, embedElement)}>
-        <iframe
-          className={cn(selected && "selected")}
-          src={embedElement.url}
-          title={embedElement.url}
-          width="100%" 
-          height="100%"
-          contentEditable={false}
-          draggable={false}
-        />
-        {children}
-      </span>
-    </Popover>
+      <iframe
+        className={cn(selected && "selected")}
+        src={embedElement.url}
+        title={embedElement.url}
+        width="100%" 
+        height="100%"
+        contentEditable={false}
+        draggable={false}
+      />
+      {children}
+    </div>
   );
 };
