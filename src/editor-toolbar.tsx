@@ -10,6 +10,38 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator"
 
+const getGeneralIcon = (blockType?: BlockType) => {
+  switch(blockType) {
+    case BlockType.HeadingOne: return <Icons.H1 size={16} />;
+    case BlockType.HeadingTwo: return <Icons.H2 size={16} />;
+    case BlockType.HeadingThree: return <Icons.H3 size={16} />;
+    case BlockType.HeadingFour: return <Icons.H4 size={16} />;
+    case BlockType.HeadingFive: return <Icons.H5 size={16} />;
+    case BlockType.HeadingSix: return <Icons.H6 size={16} />;
+    case BlockType.BlockQuote: return <Icons.BlockQuote size={16} />;
+  }
+  return <Icons.Paragraph size={16} />;
+}
+
+const getAlignIcon = (alignType: AlignType | null) => {
+  switch(alignType) {
+    case AlignType.Left: return <Icons.AlignLeft size={16} />;
+    case AlignType.Center: return <Icons.AlignCenter size={16} />;
+    case AlignType.Right: return <Icons.AlignRight size={16} />;
+    case AlignType.Justify: return <Icons.AlignJustify size={16} />;
+  }
+  return <Icons.AlignLeft size={16} />;
+}
+
+const getListIcon = (blockType?: BlockType) => {
+  switch(blockType) {
+    case BlockType.BulletedList: return <Icons.BulletedList size={16} />;
+    case BlockType.NumberedList: return <Icons.NumberedList size={16} />;
+  }
+
+  return <Icons.BulletedList size={16} />;
+}
+
 interface EditorToolbarProps {
   editor: CustomEditor;
   isExpanded: boolean;
@@ -38,38 +70,6 @@ export const EditorToolbar = ({ editor, isExpanded, onExpand }: EditorToolbarPro
       case "IncreaseIndent": indentListItem(editor); break;
       case "DecreaseIndent": outdentListItem(editor); break; 
     }
-  }
-
-  const getGeneralIcon = (blockType?: BlockType) => {
-    switch(blockType) {
-      case BlockType.HeadingOne: return <Icons.H1 size={16} />;
-      case BlockType.HeadingTwo: return <Icons.H2 size={16} />;
-      case BlockType.HeadingThree: return <Icons.H3 size={16} />;
-      case BlockType.HeadingFour: return <Icons.H4 size={16} />;
-      case BlockType.HeadingFive: return <Icons.H5 size={16} />;
-      case BlockType.HeadingSix: return <Icons.H6 size={16} />;
-      case BlockType.BlockQuote: return <Icons.BlockQuote size={16} />;
-    }
-    return <Icons.Paragraph size={16} />;
-  }
-
-  const getAlignIcon = (alignType: AlignType | null) => {
-    switch(alignType) {
-      case AlignType.Left: return <Icons.AlignLeft size={16} />;
-      case AlignType.Center: return <Icons.AlignCenter size={16} />;
-      case AlignType.Right: return <Icons.AlignRight size={16} />;
-      case AlignType.Justify: return <Icons.AlignJustify size={16} />;
-    }
-    return  <Icons.AlignLeft size={16} />;
-  }
-
-  const getListIcon = (blockType?: BlockType) => {
-    switch(blockType) {
-      case BlockType.BulletedList: return <Icons.BulletedList size={16} />;
-      case BlockType.NumberedList: return <Icons.NumberedList size={16} />;
-    }
-
-    return  <Icons.BulletedList size={16} />;
   }
 
   const handleEditLink = () => {
@@ -235,4 +235,4 @@ export const EditorToolbar = ({ editor, isExpanded, onExpand }: EditorToolbarPro
       </Button>
     </div>
   )
-}
+};
