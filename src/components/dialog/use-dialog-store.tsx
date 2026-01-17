@@ -1,6 +1,6 @@
-import { create } from "zustand"
-import { produce } from "immer"
-import { generateId } from "@/lib/utils"
+import { create } from "zustand";
+import { produce } from "immer";
+import { generateId } from "@/lib/utils";
 
 type DialogItem = {
   id: string;
@@ -23,7 +23,7 @@ export const useDialogStore = create<DialogState>((set, get) => {
       set((state) =>
         produce(state, (draft) => {
           draft.dialogs.push({ id: generateId(), element: dialog });
-        })
+        }),
       );
     },
 
@@ -31,7 +31,7 @@ export const useDialogStore = create<DialogState>((set, get) => {
       set((state) =>
         produce(state, (draft) => {
           draft.dialogs.pop();
-        })
+        }),
       );
     },
 
@@ -39,16 +39,16 @@ export const useDialogStore = create<DialogState>((set, get) => {
       set((state) =>
         produce(state, (draft) => {
           draft.dialogs = [];
-        })
-      )
+        }),
+      );
     },
 
     closeDialogById: (id: string) => {
       set((state) =>
         produce(state, (draft) => {
           draft.dialogs = draft.dialogs.filter((dialog) => dialog.id !== id);
-        })
-      )
-    }
-  }
+        }),
+      );
+    },
+  };
 });

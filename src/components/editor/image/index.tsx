@@ -1,13 +1,15 @@
-import { useCallback } from "react"
-import { Transforms, Path } from "slate"
-import { ReactEditor, useSlateStatic, useSelected, RenderElementProps } from "slate-react"
-import { cn } from "@/lib/utils"
-import { Icons } from "@/lib/icons"
-import { useDialogStore } from "@/components/dialog/use-dialog-store"
-import { ImageElement, BlockType, FloatType, AlignType } from "@/slate-types"
-import { updateImage, removeImage, selectBlock } from "@/slate-utils"
-import { Popover } from "../popover"
-import { DialogEditImage } from "./dialog-edit-image"
+import { useCallback } from "react";
+import { Transforms, Path } from "slate";
+import type { RenderElementProps } from "slate-react";
+import { ReactEditor, useSlateStatic, useSelected } from "slate-react";
+import { cn } from "@/lib/utils";
+import { Icons } from "@/lib/icons";
+import { useDialogStore } from "@/components/dialog/use-dialog-store";
+import type { ImageElement } from "@/slate-types";
+import { BlockType, FloatType, AlignType } from "@/slate-types";
+import { updateImage, removeImage, selectBlock } from "@/slate-utils";
+import { Popover } from "../popover";
+import { DialogEditImage } from "./dialog-edit-image";
 
 export const Image = ({ attributes, children, element }: RenderElementProps) => {
   const { showDialog } = useDialogStore();
@@ -34,18 +36,18 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
 
   const doAction = useCallback((action: "w-25" | "w-50" | "w-100" | "float-left" | "float-right" | "edit" | "delete") => {
     switch (action) {
-      case "w-25": updateImage(editor, imageElement, { width: "25%" }); break;
-      case "w-50": updateImage(editor, imageElement, { width: "50%" }); break;
-      case "w-100": updateImage(editor, imageElement, { width: "100%" }); break;
-      case "float-left": updateImage(editor, imageElement, { float: imageElement.float !== FloatType.Left ? FloatType.Left : undefined }); break;
-      case "float-right": updateImage(editor, imageElement, { float: imageElement.float !== FloatType.Right ? FloatType.Right : undefined }); break;
-      case "edit": showDialog(
-        <DialogEditImage imageElement={imageElement} onSubmit={(newImageElement) => {
-          updateImage(editor, imageElement, newImageElement);
-        }} />
-      );
-        break;
-      case "delete": removeImage(editor, imageElement); break;
+    case "w-25": updateImage(editor, imageElement, { width: "25%" }); break;
+    case "w-50": updateImage(editor, imageElement, { width: "50%" }); break;
+    case "w-100": updateImage(editor, imageElement, { width: "100%" }); break;
+    case "float-left": updateImage(editor, imageElement, { float: imageElement.float !== FloatType.Left ? FloatType.Left : undefined }); break;
+    case "float-right": updateImage(editor, imageElement, { float: imageElement.float !== FloatType.Right ? FloatType.Right : undefined }); break;
+    case "edit": showDialog(
+      <DialogEditImage imageElement={imageElement} onSubmit={(newImageElement) => {
+        updateImage(editor, imageElement, newImageElement);
+      }} />,
+    );
+      break;
+    case "delete": removeImage(editor, imageElement); break;
     }
   }, [editor, imageElement, showDialog]);
 
@@ -119,8 +121,8 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
   );
 
   const containerStyle: React.CSSProperties = {
-    width: imageElement.width || "100%"
-  }
+    width: imageElement.width || "100%",
+  };
 
   if (imageElement.float && imageElement.float !== FloatType.None) {
     containerStyle.float = imageElement.float;
@@ -132,8 +134,8 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
     }
   } else if (imageElement.align) {
     switch (imageElement.align) {
-      case AlignType.Center: { containerStyle.marginLeft = "auto"; containerStyle.marginRight = "auto"; containerStyle.display = "block"; } break;
-      case AlignType.Right: { containerStyle.marginLeft = "auto"; containerStyle.display = "block"; } break;
+    case AlignType.Center: { containerStyle.marginLeft = "auto"; containerStyle.marginRight = "auto"; containerStyle.display = "block"; } break;
+    case AlignType.Right: { containerStyle.marginLeft = "auto"; containerStyle.display = "block"; } break;
     }
   }
 
@@ -154,5 +156,5 @@ export const Image = ({ attributes, children, element }: RenderElementProps) => 
         {children}
       </span>
     </Popover>
-  )
-}
+  );
+};

@@ -1,11 +1,12 @@
-import { useState } from "react"
-import { BlockType, EmbedElement, FloatType } from "@/slate-types"
-import { useDialogStore } from "@/components/dialog/use-dialog-store"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog"
+import { useState } from "react";
+import type { EmbedElement } from "@/slate-types";
+import { BlockType, FloatType } from "@/slate-types";
+import { useDialogStore } from "@/components/dialog/use-dialog-store";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 
 interface DialogEditEmbedProps {
   embedElement?: EmbedElement;
@@ -24,17 +25,17 @@ export const DialogEditEmbed = ({ embedElement, onSubmit }: DialogEditEmbedProps
   const handleSubmit = () => {
     if (!embedUrl?.trim()) return;
     
-     onSubmit({
+    onSubmit({
       type: BlockType.Embed,
       url: embedUrl,
       width: embedWidth,
       height: embedHeight,
       float: embedFloat,
-      children: [{ text: "" }]
+      children: [{ text: "" }],
     });
 
     closeDialog();
-  }
+  };
 
   return (
     <Dialog open={true} onOpenChange={(open) => !open && closeDialog()}>
@@ -118,5 +119,5 @@ export const DialogEditEmbed = ({ embedElement, onSubmit }: DialogEditEmbedProps
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

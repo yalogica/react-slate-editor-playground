@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react"
-import { cn } from "@/lib/utils"
+import { useState, useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
 
 interface PopoverProps {
   className?: string;
@@ -55,4 +55,4 @@ export const Popover = ({ className, style, children, content }: PopoverProps) =
       </span>
     </span>
   );
-}
+};

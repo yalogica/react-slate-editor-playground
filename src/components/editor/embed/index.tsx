@@ -1,13 +1,15 @@
-import { useCallback } from "react"
-import { Transforms, Path } from "slate"
-import { ReactEditor, useSlateStatic, useSelected, RenderElementProps } from "slate-react"
-import { cn } from "@/lib/utils"
-import { Icons } from "@/lib/icons"
-import { useDialogStore } from "@/components/dialog/use-dialog-store"
-import { EmbedElement, BlockType, FloatType, AlignType } from "@/slate-types"
-import { updateEmbed, removeEmbed, selectBlock } from "@/slate-utils"
-import { Popover } from "../popover"
-import { DialogEditEmbed } from "./dialog-edit-embed"
+import { useCallback } from "react";
+import { Transforms, Path } from "slate";
+import type { RenderElementProps } from "slate-react";
+import { ReactEditor, useSlateStatic, useSelected } from "slate-react";
+import { cn } from "@/lib/utils";
+import { Icons } from "@/lib/icons";
+import { useDialogStore } from "@/components/dialog/use-dialog-store";
+import type { EmbedElement } from "@/slate-types";
+import { BlockType, FloatType, AlignType } from "@/slate-types";
+import { updateEmbed, removeEmbed, selectBlock } from "@/slate-utils";
+import { Popover } from "../popover";
+import { DialogEditEmbed } from "./dialog-edit-embed";
 
 export const Embed = ({ attributes, children, element }: RenderElementProps) => {
   const { showDialog } = useDialogStore();
@@ -34,18 +36,18 @@ export const Embed = ({ attributes, children, element }: RenderElementProps) => 
 
   const doAction = useCallback((action: "w-25" | "w-50" | "w-100" | "float-left" | "float-right" | "edit" | "delete") => {
     switch (action) {
-      case "w-25": updateEmbed(editor, embedElement, { width: "25%" }); break;
-      case "w-50": updateEmbed(editor, embedElement, { width: "50%" }); break;
-      case "w-100": updateEmbed(editor, embedElement, { width: "100%" }); break;
-      case "float-left": updateEmbed(editor, embedElement, { float: embedElement.float !== FloatType.Left ? FloatType.Left : undefined }); break;
-      case "float-right": updateEmbed(editor, embedElement, { float: embedElement.float !== FloatType.Right ? FloatType.Right : undefined }); break;
-      case "edit": showDialog(
-        <DialogEditEmbed embedElement={embedElement} onSubmit={(newEmbedElement) => {
-          updateEmbed(editor, embedElement, newEmbedElement);
-        }} />
-      );
-        break;
-      case "delete": removeEmbed(editor, embedElement); break;
+    case "w-25": updateEmbed(editor, embedElement, { width: "25%" }); break;
+    case "w-50": updateEmbed(editor, embedElement, { width: "50%" }); break;
+    case "w-100": updateEmbed(editor, embedElement, { width: "100%" }); break;
+    case "float-left": updateEmbed(editor, embedElement, { float: embedElement.float !== FloatType.Left ? FloatType.Left : undefined }); break;
+    case "float-right": updateEmbed(editor, embedElement, { float: embedElement.float !== FloatType.Right ? FloatType.Right : undefined }); break;
+    case "edit": showDialog(
+      <DialogEditEmbed embedElement={embedElement} onSubmit={(newEmbedElement) => {
+        updateEmbed(editor, embedElement, newEmbedElement);
+      }} />,
+    );
+      break;
+    case "delete": removeEmbed(editor, embedElement); break;
     }
   }, [editor, embedElement, showDialog]);
 
@@ -121,8 +123,8 @@ export const Embed = ({ attributes, children, element }: RenderElementProps) => 
   const containerStyle: React.CSSProperties = {
     width: embedElement.width || "100%",
     height: embedElement.height || "auto",
-    aspectRatio: embedElement.height ? "auto" : "16 / 9"
-  }
+    aspectRatio: embedElement.height ? "auto" : "16 / 9",
+  };
 
   if (embedElement.float && embedElement.float !== FloatType.None) {
     containerStyle.float = embedElement.float;
@@ -134,8 +136,8 @@ export const Embed = ({ attributes, children, element }: RenderElementProps) => 
     }
   } else if (embedElement.align) {
     switch (embedElement.align) {
-      case AlignType.Center: { containerStyle.marginLeft = "auto"; containerStyle.marginRight = "auto"; containerStyle.display = "block"; } break;
-      case AlignType.Right: { containerStyle.marginLeft = "auto"; containerStyle.display = "block"; } break;
+    case AlignType.Center: { containerStyle.marginLeft = "auto"; containerStyle.marginRight = "auto"; containerStyle.display = "block"; } break;
+    case AlignType.Right: { containerStyle.marginLeft = "auto"; containerStyle.display = "block"; } break;
     }
   }
 
@@ -158,5 +160,5 @@ export const Embed = ({ attributes, children, element }: RenderElementProps) => 
         {children}
       </span>
     </Popover>
-  )
-}
+  );
+};

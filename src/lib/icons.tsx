@@ -1,6 +1,8 @@
-import {
+import type {
   LucideIcon,
   LucideProps,
+} from "lucide-react";
+import {
   ChevronDown,
   Settings,
   Trash2,
@@ -18,7 +20,7 @@ import {
   ImagePlus,
   ExternalLink,
   Maximize2,
-  Minimize2
+  Minimize2,
 } from "lucide-react";
 
 export type Icon = LucideIcon;

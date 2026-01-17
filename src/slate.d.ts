@@ -1,4 +1,4 @@
-import { CustomEditor, CustomElement, CustomText } from "@/slate-types"
+import type { CustomEditor, CustomElement, CustomText } from "@/slate-types";
 
 declare module "slate" {
   interface CustomTypes {

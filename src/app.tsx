@@ -1,7 +1,7 @@
-import { Descendant } from "slate"
-import { BlockType, AlignType, FloatType } from "@/slate-types"
-import { Editor } from "@/editor"
-import { DialogProvider } from "@/components/dialog/dialog-provider"
+import type { Descendant } from "slate";
+import { BlockType, AlignType, FloatType } from "@/slate-types";
+import { Editor } from "@/editor";
+import { DialogProvider } from "@/components/dialog/dialog-provider";
 
 const initialContent: Descendant[] = [
   {
@@ -9,7 +9,7 @@ const initialContent: Descendant[] = [
     align: AlignType.Center,
     children: [
       { text: "This is header" },
-    ]
+    ],
   },
   {
     type: BlockType.Paragraph,
@@ -33,13 +33,13 @@ const initialContent: Descendant[] = [
   },
   {
     type: BlockType.BlockQuote,
-    children: [{ text: 'A wise quote.' }],
+    children: [{ text: "A wise quote." }],
   },
   {
     type: BlockType.HeadingThree,
     children: [
       { text: "Interactive Elements" },
-    ]
+    ],
   },
   {
     type: BlockType.Paragraph,
@@ -48,16 +48,16 @@ const initialContent: Descendant[] = [
       { 
         type: BlockType.Link,
         url: "https://github.com/yalogica/react-slate-editor-playground",
-        children: [{text: "hyperlinks"}] 
+        children: [{ text: "hyperlinks" }], 
       },
       { text: " to navigate across the web." },
-    ]
+    ],
   },
   {
     type: BlockType.HeadingThree,
     children: [
       { text: "Structured Data" },
-    ]
+    ],
   },
   {
     type: BlockType.Paragraph,
@@ -85,28 +85,28 @@ const initialContent: Descendant[] = [
                 type: BlockType.ListItem,
                 children: [{ text: "List Subitem 2" }],
               },
-            ]
-          }
+            ],
+          },
         ],
       },
       {
         type: BlockType.ListItem,
         children: [{ text: "List Item 3" }],
-      }
-    ]
+      },
+    ],
   },
   {
     type: BlockType.Image,
     url: "https://yalogica.github.io/store/editor/butterfly.jpg",
     width: "50%",
     float: FloatType.Left,
-    children: [{ text: "" }]
+    children: [{ text: "" }],
   },
   {
     type: BlockType.HeadingThree,
     children: [
       { text: "Media & Text Wrap" },
-    ]
+    ],
   },
   {
     type: BlockType.Paragraph,
@@ -115,14 +115,14 @@ const initialContent: Descendant[] = [
       { text: "This paragraph demonstrates how text flows around an image when the 'Float' property is set to 'Left'. Notice how the words wrap smoothly around the container, allowing for magazine-style layouts right inside your editor." },
       { text: "" },
       { text: "" },
-    ]
+    ],
   },
   {
     type: BlockType.Paragraph,
     align: AlignType.Center,
-    children: [{ text: 'Try it out for yourself!', bold: true, underline: true }],
+    children: [{ text: "Try it out for yourself!", bold: true, underline: true }],
   },
-]
+];
 
 export const App = () => {
   return (
@@ -130,5 +130,5 @@ export const App = () => {
       <Editor className="h-full w-full" content={initialContent} />
       <DialogProvider />
     </>
-  )
-}
+  );
+};

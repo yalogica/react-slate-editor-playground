@@ -1,4 +1,4 @@
-import { MarkType } from "@/slate-types"
+import { MarkType } from "@/slate-types";
 
 export const EDITOR_STYLES = `
   [contenteditable="true"] {
@@ -126,5 +126,5 @@ export const HOTKEYS: Record<string, MarkType> = {
   "mod+b": MarkType.Bold,
   "mod+i": MarkType.Italic,
   "mod+u": MarkType.Underline,
-  "mod+`": MarkType.Code
-}
+  "mod+`": MarkType.Code,
+};

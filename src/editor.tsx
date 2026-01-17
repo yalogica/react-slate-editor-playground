@@ -1,12 +1,13 @@
-import { useMemo, useState, useCallback } from "react"
-import { createEditor, Descendant } from "slate"
-import { Slate, withReact } from "slate-react"
+import { useMemo, useState, useCallback } from "react";
+import type { Descendant } from "slate";
+import { createEditor } from "slate";
+import { Slate, withReact } from "slate-react";
 import { withHistory } from "slate-history";
-import { cn } from "@/lib/utils"
-import { CustomEditor } from "@/slate-types"
-import { withLinks, withEmbeds, withSchema } from "@/slate-utils"
-import { EditorToolbar } from "@/editor-toolbar"
-import { EditorContent } from "@/editor-content"
+import { cn } from "@/lib/utils";
+import type { CustomEditor } from "@/slate-types";
+import { withLinks, withEmbeds, withSchema } from "@/slate-utils";
+import { EditorToolbar } from "@/editor-toolbar";
+import { EditorContent } from "@/editor-content";
 
 interface EditorLayoutProps {
   className?: string;
@@ -17,7 +18,7 @@ interface EditorLayoutProps {
   onExpand: () => void;
 }
 
-const EditorLayout = ({className, editor, value, isExpanded, onChange, onExpand}: EditorLayoutProps) => {
+const EditorLayout = ({ className, editor, value, isExpanded, onChange, onExpand }: EditorLayoutProps) => {
   return (
     <div className={className}>
       <div className="w-full h-full flex flex-col border-10 rounded-md bg-background">
@@ -37,7 +38,7 @@ const EditorLayout = ({className, editor, value, isExpanded, onChange, onExpand}
       </div>
     </div>
   );
-}
+};
 
 export interface EditorProps {
   className?: string;
@@ -48,7 +49,8 @@ export const Editor = ({ className, content = [] }: EditorProps) => {
   const editor = useMemo(() => withHistory(withSchema(withEmbeds(withLinks(withReact(createEditor()))))), []);
   const [editorContent, setEditorContent] = useState<Descendant[]>(content);
   const [isExpanded, setIsExpanded] = useState(false);
- 
+  const [, setTick] = useState(0);
+
   const toggleExpand = useCallback(() => {
     editor.deselect();
     setIsExpanded(prev => !prev);
@@ -56,6 +58,7 @@ export const Editor = ({ className, content = [] }: EditorProps) => {
 
   const handleOnChange = useCallback((newValue: Descendant[]) => {
     setEditorContent(newValue);
+    setTick(t => t + 1);
   }, []);
 
   return (
@@ -67,5 +70,5 @@ export const Editor = ({ className, content = [] }: EditorProps) => {
       onChange={handleOnChange}
       onExpand={toggleExpand}
     />
-  )
-}
+  );
+};

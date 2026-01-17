@@ -1,15 +1,19 @@
-import isHotkey from "is-hotkey"
-import React, { useRef, useState, useCallback, useEffect, KeyboardEvent } from "react"
-import { createPortal } from "react-dom"
-import { Descendant, Transforms } from "slate"
-import { Editable, RenderElementProps, RenderLeafProps } from "slate-react"
-import { cn } from "@/lib/utils"
-import { EDITOR_STYLES, HOTKEYS } from "@/editor-types"
-import { BlockType, CustomEditor } from "@/slate-types"
-import { toggleMark, supportsAlign } from "@/slate-utils"
-import { Link } from "@/components/editor/link"
-import { Image } from "@/components/editor/image"
-import { Embed } from "@/components/editor/embed"
+import isHotkey from "is-hotkey";
+import type { KeyboardEvent } from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
+import type { Descendant } from "slate";
+import { Transforms } from "slate";
+import type { RenderElementProps, RenderLeafProps } from "slate-react";
+import { Editable } from "slate-react";
+import { cn } from "@/lib/utils";
+import { EDITOR_STYLES, HOTKEYS } from "@/editor-types";
+import type { CustomEditor } from "@/slate-types";
+import { BlockType } from "@/slate-types";
+import { toggleMark, supportsAlign } from "@/slate-utils";
+import { Link } from "@/components/editor/link";
+import { Image } from "@/components/editor/image";
+import { Embed } from "@/components/editor/embed";
 
 interface EditorContentProps {
   isExpanded: boolean;
@@ -18,10 +22,10 @@ interface EditorContentProps {
   onChange: (value: Descendant[]) => void;
 }
 
-export const EditorContent = ({ editor, isExpanded, value, onChange }: EditorContentProps) => {
+export const EditorContent = ({ editor }: EditorContentProps) => {
   const handleKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
     for (const hotkey in HOTKEYS) {
-      if (isHotkey(hotkey, e as any)) {
+      if (isHotkey(hotkey, e)) {
         e.preventDefault();
         const mark = HOTKEYS[hotkey];
         toggleMark(editor, mark);
@@ -46,7 +50,7 @@ export const EditorContent = ({ editor, isExpanded, value, onChange }: EditorCon
           }, {
             mode: "highest",
             select: true,
-          }
+          },
         );
         return;
       }
@@ -70,8 +74,8 @@ export const EditorContent = ({ editor, isExpanded, value, onChange }: EditorCon
         />
       </IFrame>
     </div>
-  )
-}
+  );
+};
 
 interface IFrameProps extends React.IframeHTMLAttributes<HTMLIFrameElement> {
   children: React.ReactNode
@@ -107,8 +111,8 @@ const IFrame = ({ children }: IFrameProps) => {
     >
       { iframeBody && createPortal(children, iframeBody) }
     </iframe>
-  )
-}
+  );
+};
 
 const renderElement = (props: RenderElementProps) => {
   const { attributes, children, element } = props;
@@ -119,28 +123,28 @@ const renderElement = (props: RenderElementProps) => {
   }
 
   switch (element.type) {
-    case BlockType.HeadingOne: return <h1 style={style} {...attributes}>{children}</h1>;
-    case BlockType.HeadingTwo: return <h2 style={style} {...attributes}>{children}</h2>;
-    case BlockType.HeadingThree: return <h3 style={style} {...attributes}>{children}</h3>;
-    case BlockType.HeadingFour: return <h4 style={style} {...attributes}>{children}</h4>;
-    case BlockType.HeadingFive: return <h5 style={style} {...attributes}>{children}</h5>;
-    case BlockType.HeadingSix: return <h6 style={style} {...attributes}>{children}</h6>;
-    case BlockType.BlockQuote: return <blockquote style={style} {...attributes}>{children}</blockquote>;
-    case BlockType.BulletedList: return <ul style={style} {...attributes}>{children}</ul>;
-    case BlockType.NumberedList: return <ol style={style} {...attributes}>{children}</ol>;
-    case BlockType.ListItem: return <li style={style} {...attributes}>{children}</li>;
-    case BlockType.Link: return <Link style={style} {...props} />
-    case BlockType.Image: return <Image {...props} />
-    case BlockType.Embed: return <Embed {...props} />
+  case BlockType.HeadingOne: return <h1 style={style} {...attributes}>{children}</h1>;
+  case BlockType.HeadingTwo: return <h2 style={style} {...attributes}>{children}</h2>;
+  case BlockType.HeadingThree: return <h3 style={style} {...attributes}>{children}</h3>;
+  case BlockType.HeadingFour: return <h4 style={style} {...attributes}>{children}</h4>;
+  case BlockType.HeadingFive: return <h5 style={style} {...attributes}>{children}</h5>;
+  case BlockType.HeadingSix: return <h6 style={style} {...attributes}>{children}</h6>;
+  case BlockType.BlockQuote: return <blockquote style={style} {...attributes}>{children}</blockquote>;
+  case BlockType.BulletedList: return <ul style={style} {...attributes}>{children}</ul>;
+  case BlockType.NumberedList: return <ol style={style} {...attributes}>{children}</ol>;
+  case BlockType.ListItem: return <li style={style} {...attributes}>{children}</li>;
+  case BlockType.Link: return <Link style={style} {...props} />;
+  case BlockType.Image: return <Image {...props} />;
+  case BlockType.Embed: return <Embed {...props} />;
     
-    default:
-      return (
-        <p style={style} {...attributes}>
-          {children}
-        </p>
-      )
+  default:
+    return (
+      <p style={style} {...attributes}>
+        {children}
+      </p>
+    );
   }
-}
+};
 
 const renderLeaf = ({ attributes, children, leaf }: RenderLeafProps) => {
   const tags = [];
@@ -155,8 +159,8 @@ const renderLeaf = ({ attributes, children, leaf }: RenderLeafProps) => {
 
   const content = tags.reduceRight(
     (child, tag) => React.createElement(tag, {}, child),
-    children
+    children,
   );
 
   return <span {...attributes}>{content}</span>;
-}
+};

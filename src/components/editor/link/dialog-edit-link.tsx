@@ -1,12 +1,13 @@
-import { useState } from "react"
-import { Node as SlateNode } from "slate"
-import { BlockType, LinkElement } from "@/slate-types"
-import { useDialogStore } from "@/components/dialog/use-dialog-store"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog"
+import { useState } from "react";
+import { Node as SlateNode } from "slate";
+import type { LinkElement } from "@/slate-types";
+import { BlockType } from "@/slate-types";
+import { useDialogStore } from "@/components/dialog/use-dialog-store";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 
 interface DialogEditLinkProps {
   linkElement?: LinkElement;
@@ -30,11 +31,11 @@ export const DialogEditLink = ({ linkElement, text, onSubmit }: DialogEditLinkPr
       url: linkUrl,
       title: linkTitle,
       target: (linkTarget as "_blank" | "_self") || "_self",
-      children: [{ text: linkText || linkUrl }]
+      children: [{ text: linkText || linkUrl }],
     });
 
     closeDialog();
-  }
+  };
 
   return (
     <Dialog open={true} onOpenChange={(open) => !open && closeDialog()}>
@@ -73,16 +74,16 @@ export const DialogEditLink = ({ linkElement, text, onSubmit }: DialogEditLinkPr
           </div>
 
           <div className="flex flex-col gap-1">
-              <Label htmlFor="linkTitle">Title</Label>
-              <Input 
-                id="linkTitle" 
-                placeholder="Link title (tooltip)" 
-                value={linkTitle}
-                onChange={(e) => setLinkTitle(e.target.value)}
-              />
-              <p className="text-sm text-muted-foreground">
+            <Label htmlFor="linkTitle">Title</Label>
+            <Input 
+              id="linkTitle" 
+              placeholder="Link title (tooltip)" 
+              value={linkTitle}
+              onChange={(e) => setLinkTitle(e.target.value)}
+            />
+            <p className="text-sm text-muted-foreground">
                 Appears as a tooltip when hovering over the link
-              </p>
+            </p>
           </div>
 
           <div className="flex flex-col gap-3">
@@ -114,5 +115,5 @@ export const DialogEditLink = ({ linkElement, text, onSubmit }: DialogEditLinkPr
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

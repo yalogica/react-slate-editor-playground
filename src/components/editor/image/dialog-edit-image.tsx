@@ -1,12 +1,13 @@
-import { useState } from "react"
-import { Node as SlateNode } from "slate"
-import { BlockType, ImageElement, FloatType } from "@/slate-types"
-import { useDialogStore } from "@/components/dialog/use-dialog-store"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog"
+import { useState } from "react";
+import { Node as SlateNode } from "slate";
+import type { ImageElement } from "@/slate-types";
+import { BlockType, FloatType } from "@/slate-types";
+import { useDialogStore } from "@/components/dialog/use-dialog-store";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 
 interface DialogEditImageProps {
   imageElement?: ImageElement;
@@ -25,17 +26,17 @@ export const DialogEditImage = ({ imageElement, onSubmit }: DialogEditImageProps
   const handleSubmit = () => {
     if (!imageUrl?.trim()) return;
     
-     onSubmit({
+    onSubmit({
       type: BlockType.Image,
       url: imageUrl,
       alt: imageAlt,
       width: imageWidth,
       float: imageFloat,
-      children: [{ text: "" }]
+      children: [{ text: "" }],
     });
 
     closeDialog();
-  }
+  };
 
   return (
     <Dialog open={true} onOpenChange={(open) => !open && closeDialog()}>
@@ -116,5 +117,5 @@ export const DialogEditImage = ({ imageElement, onSubmit }: DialogEditImageProps
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

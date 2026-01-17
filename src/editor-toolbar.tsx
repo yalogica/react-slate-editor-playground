@@ -1,46 +1,47 @@
-import { CustomEditor, BlockType, MarkType, AlignType } from "@/slate-types"
-import { getActiveBlock, toggleBlock, isMarkActive, toggleMark, getActiveAlign, toggleAlign, indentListItem, outdentListItem, insertLink, removeLink, insertImage, insertEmbed, getSelectedText } from "./slate-utils"
-import { cn } from "@/lib/utils"
-import { Icons } from "@/lib/icons"
-import { useDialogStore } from "@/components/dialog/use-dialog-store"
-import { DialogEditLink } from "@/components/editor/link/dialog-edit-link"
-import { DialogEditImage } from "@/components/editor/image/dialog-edit-image"
-import { DialogEditEmbed } from "@/components/editor/embed/dialog-edit-embed"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Separator } from "@/components/ui/separator"
+import type { CustomEditor } from "@/slate-types";
+import { BlockType, MarkType, AlignType } from "@/slate-types";
+import { getActiveBlock, toggleBlock, isMarkActive, toggleMark, getActiveAlign, toggleAlign, indentListItem, outdentListItem, insertLink, removeLink, insertImage, insertEmbed, getSelectedText } from "./slate-utils";
+import { cn } from "@/lib/utils";
+import { Icons } from "@/lib/icons";
+import { useDialogStore } from "@/components/dialog/use-dialog-store";
+import { DialogEditLink } from "@/components/editor/link/dialog-edit-link";
+import { DialogEditImage } from "@/components/editor/image/dialog-edit-image";
+import { DialogEditEmbed } from "@/components/editor/embed/dialog-edit-embed";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 
 const getGeneralIcon = (blockType?: BlockType) => {
   switch(blockType) {
-    case BlockType.HeadingOne: return <Icons.H1 size={16} />;
-    case BlockType.HeadingTwo: return <Icons.H2 size={16} />;
-    case BlockType.HeadingThree: return <Icons.H3 size={16} />;
-    case BlockType.HeadingFour: return <Icons.H4 size={16} />;
-    case BlockType.HeadingFive: return <Icons.H5 size={16} />;
-    case BlockType.HeadingSix: return <Icons.H6 size={16} />;
-    case BlockType.BlockQuote: return <Icons.BlockQuote size={16} />;
+  case BlockType.HeadingOne: return <Icons.H1 size={16} />;
+  case BlockType.HeadingTwo: return <Icons.H2 size={16} />;
+  case BlockType.HeadingThree: return <Icons.H3 size={16} />;
+  case BlockType.HeadingFour: return <Icons.H4 size={16} />;
+  case BlockType.HeadingFive: return <Icons.H5 size={16} />;
+  case BlockType.HeadingSix: return <Icons.H6 size={16} />;
+  case BlockType.BlockQuote: return <Icons.BlockQuote size={16} />;
   }
   return <Icons.Paragraph size={16} />;
-}
+};
 
 const getAlignIcon = (alignType: AlignType | null) => {
   switch(alignType) {
-    case AlignType.Left: return <Icons.AlignLeft size={16} />;
-    case AlignType.Center: return <Icons.AlignCenter size={16} />;
-    case AlignType.Right: return <Icons.AlignRight size={16} />;
-    case AlignType.Justify: return <Icons.AlignJustify size={16} />;
+  case AlignType.Left: return <Icons.AlignLeft size={16} />;
+  case AlignType.Center: return <Icons.AlignCenter size={16} />;
+  case AlignType.Right: return <Icons.AlignRight size={16} />;
+  case AlignType.Justify: return <Icons.AlignJustify size={16} />;
   }
   return <Icons.AlignLeft size={16} />;
-}
+};
 
 const getListIcon = (blockType?: BlockType) => {
   switch(blockType) {
-    case BlockType.BulletedList: return <Icons.BulletedList size={16} />;
-    case BlockType.NumberedList: return <Icons.NumberedList size={16} />;
+  case BlockType.BulletedList: return <Icons.BulletedList size={16} />;
+  case BlockType.NumberedList: return <Icons.NumberedList size={16} />;
   }
 
   return <Icons.BulletedList size={16} />;
-}
+};
 
 interface EditorToolbarProps {
   editor: CustomEditor;
@@ -57,20 +58,20 @@ export const EditorToolbar = ({ editor, isExpanded, onExpand }: EditorToolbarPro
 
   const handleGeneralAction = (blockType: BlockType) => {
     toggleBlock(editor, blockType);
-  }
+  };
 
   const handleAlignAction = (alignType: AlignType) => {
     toggleAlign(editor, alignType);
-  }
+  };
 
   const handleListAction = (action: BlockType | "IncreaseIndent" | "DecreaseIndent") => {
     switch(action) {
-      case BlockType.BulletedList: toggleBlock(editor, BlockType.BulletedList); break;
-      case BlockType.NumberedList: toggleBlock(editor, BlockType.NumberedList); break;
-      case "IncreaseIndent": indentListItem(editor); break;
-      case "DecreaseIndent": outdentListItem(editor); break; 
+    case BlockType.BulletedList: toggleBlock(editor, BlockType.BulletedList); break;
+    case BlockType.NumberedList: toggleBlock(editor, BlockType.NumberedList); break;
+    case "IncreaseIndent": indentListItem(editor); break;
+    case "DecreaseIndent": outdentListItem(editor); break; 
     }
-  }
+  };
 
   const handleEditLink = () => {
     if (activeBlockLowest?.type === BlockType.Link) {
@@ -78,15 +79,15 @@ export const EditorToolbar = ({ editor, isExpanded, onExpand }: EditorToolbarPro
     } else {
       showDialog(<DialogEditLink text={getSelectedText(editor)} onSubmit={(newLinkElement) => { insertLink(editor, newLinkElement); }} />);
     }
-  }
+  };
 
   const handleEditImage = () => {
     showDialog(<DialogEditImage onSubmit={(newImageElement) => { insertImage(editor, newImageElement); }} />);
-  }
+  };
 
   const handleEditEmbed = () => {
     showDialog(<DialogEditEmbed onSubmit={(newEmbedElement) => { insertEmbed(editor, newEmbedElement); }} />);
-  }
+  };
 
   return (
     <div className="p-1 flex flex-wrap gap-1 items-center border-b">
@@ -234,5 +235,5 @@ export const EditorToolbar = ({ editor, isExpanded, onExpand }: EditorToolbarPro
         { isExpanded ? <Icons.Minimize size={16} /> : <Icons.Maximize size={16} /> }
       </Button>
     </div>
-  )
+  );
 };

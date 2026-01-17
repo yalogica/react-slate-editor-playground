@@ -1,11 +1,12 @@
-import { useCallback } from "react"
-import { useSlateStatic, RenderElementProps } from "slate-react"
-import { Icons } from "@/lib/icons"
-import { useDialogStore } from "@/components/dialog/use-dialog-store"
-import { LinkElement } from "@/slate-types"
-import { updateLink, removeLink } from "@/slate-utils"
-import { Popover } from "../popover"
-import { DialogEditLink } from "./dialog-edit-link"
+import { useCallback } from "react";
+import type { RenderElementProps } from "slate-react";
+import { useSlateStatic } from "slate-react";
+import { Icons } from "@/lib/icons";
+import { useDialogStore } from "@/components/dialog/use-dialog-store";
+import type { LinkElement } from "@/slate-types";
+import { updateLink, removeLink } from "@/slate-utils";
+import { Popover } from "../popover";
+import { DialogEditLink } from "./dialog-edit-link";
 
 interface LinkProps extends RenderElementProps {
   style: React.CSSProperties;
@@ -18,28 +19,28 @@ export const Link = ({ attributes, children, element, style }: LinkProps) => {
 
   const doAction = useCallback((action: "open" | "edit" | "delete") => {
     switch (action) {
-      case "open": {
-        const url = linkElement.url.trim();
+    case "open": {
+      const url = linkElement.url.trim();
 
-        if (!url) return;
+      if (!url) return;
 
-        const fullUrl = url.startsWith("http") ? url : `https://${url}`;
-        const newWindow = window.open(fullUrl, "_blank", "noopener,noreferrer");
+      const fullUrl = url.startsWith("http") ? url : `https://${url}`;
+      const newWindow = window.open(fullUrl, "_blank", "noopener,noreferrer");
 
-        if (newWindow) {
-          newWindow.opener = null;
-        }
-      } break;
-      case "edit": {
-        showDialog(
-          <DialogEditLink linkElement={linkElement} onSubmit={(newLinkElement) => {
-            updateLink(editor, linkElement, newLinkElement);
-          }} />
-        );
-      } break;
-      case "delete": {
-        removeLink(editor, linkElement);
-      } break;
+      if (newWindow) {
+        newWindow.opener = null;
+      }
+    } break;
+    case "edit": {
+      showDialog(
+        <DialogEditLink linkElement={linkElement} onSubmit={(newLinkElement) => {
+          updateLink(editor, linkElement, newLinkElement);
+        }} />,
+      );
+    } break;
+    case "delete": {
+      removeLink(editor, linkElement);
+    } break;
     }
   }, [editor, linkElement, showDialog]);
 
@@ -88,5 +89,5 @@ export const Link = ({ attributes, children, element, style }: LinkProps) => {
         {children}
       </a>
     </Popover>
-  )
-}
+  );
+};

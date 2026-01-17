@@ -28,6 +28,7 @@ A modern, high-performance rich text editor built with **React 19**, **Slate.js*
 -   **UI Components**: [shadcn/ui](https://ui.shadcn.com) (Radix UI)
 -   **State Management**: [Zustand](https://zustand-demo.pmnd.rs) with [Immer](https://immerjs.github.io)
 -   **Build Tool**: [Vite 7](https://vitejs.dev)
+-   **Code Quality**: [ESLint](https://eslint.org) for static code analysis
 
 ## 🚀 Getting Started
 
@@ -48,6 +49,19 @@ A modern, high-performance rich text editor built with **React 19**, **Slate.js*
     ```bash
     pnpm dev
     ```
+
+## 🧹 Code Quality & Linting
+
+The project includes ESLint configuration for maintaining code quality and consistency. Run the following commands:
+
+-   **Lint**: `pnpm lint` - Check code for linting issues
+-   **Auto-fix**: `pnpm lint:fix` - Automatically fix fixable linting issues
+
+ESLint rules include:
+-   Consistent code formatting (semicolons, quotes, indentation)
+-   Type-safe TypeScript rules
+-   React best practices
+-   Unused variable detection
 
 ## 🔧 Configuration
 

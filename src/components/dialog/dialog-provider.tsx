@@ -1,4 +1,4 @@
-import { useDialogStore } from "@/components/dialog/use-dialog-store"
+import { useDialogStore } from "@/components/dialog/use-dialog-store";
 
 export const DialogProvider = () => {
   const dialogs = useDialogStore((state) => state.dialogs);
@@ -14,4 +14,4 @@ export const DialogProvider = () => {
       ))}
     </>
   );
-}
+};
